@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-decomma",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Transpiles comma expressions to normal expressions.",
   "main": "dist/index.js",
   "scripts": {
