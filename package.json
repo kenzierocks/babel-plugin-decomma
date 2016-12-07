@@ -2,8 +2,9 @@
   "name": "babel-plugin-decomma",
   "version": "1.0.1",
   "description": "Transpiles comma expressions to normal expressions.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "NODE_ENV=production babel ./src --out-dir ./dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/kenzierocks/babel-plugin-decomma/issues"
   },
-  "homepage": "https://github.com/kenzierocks/babel-plugin-decomma#readme"
+  "homepage": "https://github.com/kenzierocks/babel-plugin-decomma#readme",
+  "devDependencies": {
+    "babel-preset-env": "0.0.9"
+  }
 }
