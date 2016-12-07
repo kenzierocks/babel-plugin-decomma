@@ -1,0 +1,22 @@
+{
+  "name": "babel-plugin-decomma",
+  "version": "1.0.0",
+  "description": "Transpiles comma expressions to normal expressions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenzierocks/babel-plugin-decomma.git"
+  },
+  "author": "kenzierocks",
+  "keywords": [
+    "babel-plugin"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kenzierocks/babel-plugin-decomma/issues"
+  },
+  "homepage": "https://github.com/kenzierocks/babel-plugin-decomma#readme"
+}
