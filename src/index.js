@@ -4,27 +4,38 @@ export default function ({ types: t }) {
     return {
         name: "decomma",
         visitor: {
+            LogicalExpression(path) {
+                const n = path.node;
+                if (n.operator === '&&' &&
+                    t.isSequenceExpression(n.right) &&
+                    t.isExpressionStatement(path.parent)) {
+                    path.parentPath.replaceWith(t.ifStatement(
+                      /* if ( */ n.left, /* ) */
+                      t.blockStatement([ /* { */
+                        t.expressionStatement(n.right)
+                      /* } */])
+                    ));
+                    path.skip(); // it's now invalid
+                }
+            },
             SequenceExpression(path) {
                 if (t.isForStatement(path.parent)) {
                     // ignore comma in for, it's kinda standard
                     return;
                 }
-                const last = lastElement(path.node.expressions);
-                const parentBlock = path.scope.block;
-                const parentCtx = path.findParent(p => p.parent === parentBlock);
+                const parentCtx = path.findParent(p => t.isBlockStatement(p));
                 if (parentCtx === null) {
-                    throw path.buildCodeFrameError("parentCtx is null, expected to find block "
-                     + JSON.stringify(parentBlock));
+                    throw path.buildCodeFrameError("parentCtx is null, expected to find BlockStatement");
                 }
-                // insert most expressions before the current line
-                path.node.expressions.forEach(expr => {
-                    if (expr === last) {
-                        return;
-                    }
-                    parentCtx.insertBefore(t.expressionStatement(expr))
-                })
+                // insert all but last expression before the current line
+                const exprs = path.node.expressions;
+                for(let i = exprs.length - 2; i >= 0; i--) {
+                    const node = exprs[i];
+                    const expr = t.isStatement(node) ? node : t.expressionStatement(node);
+                    parentCtx.unshiftContainer('body', expr);
+                }
                 // replace the comma expression with its result (last expr)
-                path.replaceWith(last);
+                path.replaceWith(lastElement(path.node.expressions));
             }
         }
     };
