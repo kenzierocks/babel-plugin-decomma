@@ -23,9 +23,9 @@ export default function ({ types: t }) {
                     // ignore comma in for, it's kinda standard
                     return;
                 }
-                const parentCtx = path.findParent(p => t.isBlockStatement(p));
+                const parentCtx = path.findParent(p => t.isBlock(p));
                 if (parentCtx === null) {
-                    throw path.buildCodeFrameError("parentCtx is null, expected to find BlockStatement");
+                    throw path.buildCodeFrameError("parentCtx is null, expected to find Block");
                 }
                 // insert all but last expression before the current line
                 const exprs = path.node.expressions;
